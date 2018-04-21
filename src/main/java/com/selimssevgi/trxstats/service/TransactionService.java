@@ -13,12 +13,12 @@ public interface TransactionService {
    *
    * @param newTransactionRequest carries data for new transaction
    * @throws NullPointerException if given argument is null
-   * @throws OldTransactionException if transaction request is older than 60 seconds
+   * @throws OldTransactionException if transaction request is older than accepted time limit
    */
   void add(NewTransactionRequest newTransactionRequest);
 
   /**
-   * Calculates the statistics of the transaction in last 60 seconds.
+   * Calculates the statistics of the transactions in specific time limit.
    *
    * @return object holding statistics data,
    *         if no transaction found, object is populated with zero-values
