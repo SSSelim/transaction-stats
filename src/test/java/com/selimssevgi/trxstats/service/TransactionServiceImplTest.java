@@ -16,7 +16,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -89,7 +88,7 @@ public class TransactionServiceImplTest {
     );
 
     Mockito.doReturn(transactions)
-            .when(transactionRepository).findAll();
+            .when(transactionRepository).findAllBySpecification(any());
 
     final double expectedSum = 15.0;
     final double expectedMax = 5.0;
@@ -99,8 +98,6 @@ public class TransactionServiceImplTest {
 
 
     TransactionStatisticsDto statisticsDto = transactionService.calculateStatistics();
-
-    Mockito.verify(transactionRepository, Mockito.only()).findAll();
 
     Assertions.assertThat(statisticsDto.getSum()).isEqualTo(expectedSum);
     Assertions.assertThat(statisticsDto.getMax()).isEqualTo(expectedMax);
@@ -115,7 +112,7 @@ public class TransactionServiceImplTest {
     final long longZeroValue = 0L;
 
     Mockito.doReturn(Collections.EMPTY_LIST)
-            .when(transactionRepository).findAll();
+            .when(transactionRepository).findAllBySpecification(any());
 
     TransactionStatisticsDto statisticsDto = transactionService.calculateStatistics();
 

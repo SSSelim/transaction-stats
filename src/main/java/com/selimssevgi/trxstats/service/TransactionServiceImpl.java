@@ -41,7 +41,8 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   public TransactionStatisticsDto calculateStatistics() {
-    List<Transaction> transactions = transactionRepository.findAll();
+    List<Transaction> transactions =
+            transactionRepository.findAllBySpecification(transactionSpecification);
 
     // DSStatistics returns non-zero values when no value found
     if (transactions.isEmpty()) {

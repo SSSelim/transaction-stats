@@ -1,12 +1,13 @@
 package com.selimssevgi.trxstats.repository;
 
 import com.selimssevgi.trxstats.domain.Transaction;
+import com.selimssevgi.trxstats.domain.shared.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Transaction repository implementation using in-memory data structure.
@@ -23,11 +24,9 @@ public class TransactionRepositoryImpl implements TransactionRepository {
   }
 
   @Override
-  public List<Transaction> findAll() {
-    if (transactions.isEmpty()) {
-      return Collections.emptyList();
-    }
-
-    return Collections.unmodifiableList(transactions);
+  public List<Transaction> findAllBySpecification(Specification<Transaction> specification) {
+      return transactions.stream()
+              .filter(specification::isSatisfiedBy)
+              .collect(Collectors.toList()); // returns empty list if none found
   }
 }
