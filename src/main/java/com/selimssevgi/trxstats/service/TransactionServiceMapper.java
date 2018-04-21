@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  * Maps service layer objects to domain layer objects and vice versa.
  */
-class TransactionServiceMapper {
+final class TransactionServiceMapper {
 
   private TransactionServiceMapper() {
     throw new AssertionError("No TransactionServiceMapper object for you!");
