@@ -45,7 +45,7 @@ public class TransactionControllerTest {
             post("/transactions")
                     .contentType(MediaType.APPLICATION_JSON_UTF8)
                     .content(TestUtil.asJsonBytes(validTrxInput)))
-            .andExpect(status().is(ResponseCodes.TRX_ACCEPTED_SUCCESSFULY.code()));
+            .andExpect(status().is(ResponseCodes.TRX_ACCEPTED_SUCCESSFULLY.code()));
 
     Mockito.verify(transactionService, Mockito.only()).add(any());
   }

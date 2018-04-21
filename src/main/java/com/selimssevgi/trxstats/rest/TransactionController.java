@@ -1,6 +1,5 @@
 package com.selimssevgi.trxstats.rest;
 
-import com.selimssevgi.trxstats.domain.Transaction;
 import com.selimssevgi.trxstats.rest.model.TransactionInput;
 import com.selimssevgi.trxstats.rest.model.TransactionStatisticsOutput;
 import com.selimssevgi.trxstats.service.OldTransactionException;
@@ -46,7 +45,7 @@ public class TransactionController {
 
     try {
       transactionService.add(newTransactionRequest);
-      return ResponseEntity.status(ResponseCodes.TRX_ACCEPTED_SUCCESSFULY.code()).build();
+      return ResponseEntity.status(ResponseCodes.TRX_ACCEPTED_SUCCESSFULLY.code()).build();
     } catch (OldTransactionException e) {
       LOGGER.debug("Given transaction is older than 60 seconds, returning 204");
       return ResponseEntity.status(ResponseCodes.TRX_OLDER_THAN_ACCEPTED_LIMIT.code()).build();
