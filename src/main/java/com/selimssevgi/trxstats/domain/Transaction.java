@@ -34,4 +34,11 @@ public class Transaction {
   public boolean isOlderThan(long seconds) {
     return epochTime.isBefore(EpochTime.fromSecondsAgo(seconds));
   }
+
+  @Override
+  public String toString() {
+    return "Transaction{amount=" + amount +
+            ", epochTime=" + epochTime +
+            '}';
+  }
 }
