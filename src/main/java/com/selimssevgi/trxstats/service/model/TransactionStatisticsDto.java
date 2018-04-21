@@ -1,5 +1,12 @@
 package com.selimssevgi.trxstats.service.model;
 
+/**
+ * Container class for statistical data.
+ * <p>
+ *   Provides builder object for more convenient and readable way
+ *   of creating the objects.
+ *   All fields have their own zero values as defaults.
+ */
 public class TransactionStatisticsDto {
   private double sum;
   private double avg;
@@ -13,7 +20,6 @@ public class TransactionStatisticsDto {
     this.max = builder.max;
     this.min = builder.min;
     this.count = builder.count;
-
   }
 
   public static TransactionStatisticsDtoBuilder newBuilder() {
