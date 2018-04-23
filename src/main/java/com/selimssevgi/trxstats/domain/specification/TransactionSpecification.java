@@ -1,7 +1,6 @@
-package com.selimssevgi.trxstats.service;
+package com.selimssevgi.trxstats.domain.specification;
 
 import com.selimssevgi.trxstats.domain.Transaction;
-import com.selimssevgi.trxstats.domain.shared.AbstractSpecification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
