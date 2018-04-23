@@ -2,6 +2,7 @@ package com.selimssevgi.trxstats.rest;
 
 /**
  * Http response codes.
+ * @see org.springframework.http.HttpStatus
  */
 public enum ResponseCodes {
   TRX_ACCEPTED_SUCCESSFULLY(201),
