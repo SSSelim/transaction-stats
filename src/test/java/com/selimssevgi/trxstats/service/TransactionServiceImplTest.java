@@ -1,13 +1,9 @@
 package com.selimssevgi.trxstats.service;
 
-import com.selimssevgi.trxstats.domain.Transaction;
-import com.selimssevgi.trxstats.domain.shared.Amount;
-import com.selimssevgi.trxstats.domain.shared.EpochTime;
+import com.selimssevgi.trxstats.domain.specification.TransactionSpecification;
 import com.selimssevgi.trxstats.repository.TransactionRepository;
 import com.selimssevgi.trxstats.service.model.NewTransactionRequest;
-import com.selimssevgi.trxstats.service.model.TransactionStatisticsDto;
 import com.selimssevgi.trxstats.util.TestData;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,14 +12,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 
 /**
- * Transaction Statistics Service unit tests.
+ * Transaction StatisticsCalculatorImpl Service unit tests.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TransactionServiceImplTest {
@@ -70,56 +62,10 @@ public class TransactionServiceImplTest {
     NewTransactionRequest validTrx =
             new NewTransactionRequest(
                     TestData.VALID_AMOUNT,
-                    TestData.IN_ACCEPTED_TRX_TIME_LIMIT);
+                    TestData.inAcceptedTrxTimeLimit());
 
     transactionService.add(validTrx);
 
     Mockito.verify(transactionRepository, Mockito.only()).save(any());
-  }
-
-  @Test
-  public void shouldCalculateStatistics() {
-    List<Transaction> transactions = Arrays.asList(
-            Transaction.of(Amount.of(1.0), EpochTime.fromSecondsAgo(5)),
-            Transaction.of(Amount.of(2.0), EpochTime.fromSecondsAgo(5)),
-            Transaction.of(Amount.of(3.0), EpochTime.fromSecondsAgo(5)),
-            Transaction.of(Amount.of(4.0), EpochTime.fromSecondsAgo(5)),
-            Transaction.of(Amount.of(5.0), EpochTime.fromSecondsAgo(5))
-    );
-
-    Mockito.doReturn(transactions)
-            .when(transactionRepository).findAllBySpecification(any());
-
-    final double expectedSum = 15.0;
-    final double expectedMax = 5.0;
-    final double expectedMin = 1.0;
-    final double expectedAvg = 3.0;
-    final long expectedCount = 5L;
-
-
-    TransactionStatisticsDto statisticsDto = transactionService.calculateStatistics();
-
-    Assertions.assertThat(statisticsDto.getSum()).isEqualTo(expectedSum);
-    Assertions.assertThat(statisticsDto.getMax()).isEqualTo(expectedMax);
-    Assertions.assertThat(statisticsDto.getMin()).isEqualTo(expectedMin);
-    Assertions.assertThat(statisticsDto.getAvg()).isEqualTo(expectedAvg);
-    Assertions.assertThat(statisticsDto.getCount()).isEqualTo(expectedCount);
-  }
-
-  @Test
-  public void shouldReturnZeroValuedStatisticsWhenNoTransactionFound() {
-    final double doubleZeroValue = 0.0d;
-    final long longZeroValue = 0L;
-
-    Mockito.doReturn(Collections.EMPTY_LIST)
-            .when(transactionRepository).findAllBySpecification(any());
-
-    TransactionStatisticsDto statisticsDto = transactionService.calculateStatistics();
-
-    Assertions.assertThat(statisticsDto.getSum()).isEqualTo(doubleZeroValue);
-    Assertions.assertThat(statisticsDto.getMax()).isEqualTo(doubleZeroValue);
-    Assertions.assertThat(statisticsDto.getMin()).isEqualTo(doubleZeroValue);
-    Assertions.assertThat(statisticsDto.getAvg()).isEqualTo(doubleZeroValue);
-    Assertions.assertThat(statisticsDto.getCount()).isEqualTo(longZeroValue);
   }
 }

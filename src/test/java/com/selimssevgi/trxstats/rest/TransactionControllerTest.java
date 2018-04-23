@@ -36,7 +36,7 @@ public class TransactionControllerTest {
     TransactionInput validTrxInput =
             new TransactionInput(
                     TestData.VALID_AMOUNT.value(),
-                    TestData.VALID_EPOCH_TIME.value());
+                    TestData.validEpochTime().value());
 
     Mockito.doNothing()
             .when(transactionService).add(any());

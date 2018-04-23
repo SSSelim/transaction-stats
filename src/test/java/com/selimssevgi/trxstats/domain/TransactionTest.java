@@ -1,6 +1,7 @@
 package com.selimssevgi.trxstats.domain;
 
-import com.selimssevgi.trxstats.service.TransactionSpecification;
+import com.selimssevgi.trxstats.domain.shared.EpochTime;
+import com.selimssevgi.trxstats.domain.specification.TransactionSpecification;
 import com.selimssevgi.trxstats.util.TestData;
 import org.assertj.core.api.Assertions;
 import org.junit.Rule;
@@ -20,13 +21,13 @@ public class TransactionTest {
 
   @Test
   public void shouldProvideStaticFactoryMethod() {
-    Transaction.of(TestData.VALID_AMOUNT, TestData.VALID_EPOCH_TIME);
+    Transaction.of(TestData.VALID_AMOUNT, TestData.validEpochTime());
   }
 
   @Test
   public void shouldNotAcceptNullAmount() {
     thrown.expect(NullPointerException.class);
-    Transaction.of(null, TestData.VALID_EPOCH_TIME);
+    Transaction.of(null, TestData.validEpochTime());
   }
 
   @Test
@@ -38,18 +39,20 @@ public class TransactionTest {
   @Test
   public void shouldCreateAValidTrxObject() {
     Transaction transaction =
-            Transaction.of(TestData.VALID_AMOUNT, TestData.VALID_EPOCH_TIME);
+            Transaction.of(TestData.VALID_AMOUNT, TestData.validEpochTime());
 
     Assertions.assertThat(transaction).isNotNull();
   }
 
   @Test
   public void shouldExportAmountAndTime() {
+    EpochTime validEpochTime = TestData.validEpochTime();
+
     Transaction transaction =
-            Transaction.of(TestData.VALID_AMOUNT, TestData.VALID_EPOCH_TIME);
+            Transaction.of(TestData.VALID_AMOUNT, validEpochTime);
 
     Assertions.assertThat(transaction.amount()).isSameAs(TestData.VALID_AMOUNT);
-    Assertions.assertThat(transaction.time()).isSameAs(TestData.VALID_EPOCH_TIME);
+    Assertions.assertThat(transaction.time()).isSameAs(validEpochTime);
   }
 
   @Test
@@ -64,7 +67,7 @@ public class TransactionTest {
 
     Transaction notOlderTrx = Transaction.of(
             TestData.VALID_AMOUNT,
-            TestData.IN_ACCEPTED_TRX_TIME_LIMIT);
+            TestData.inAcceptedTrxTimeLimit());
 
     Assertions.assertThat(notOlderTrx.isOlderThan(trxTimeLimitInSeconds)).isFalse();
   }
