@@ -45,6 +45,7 @@ public class TransactionController {
 
     try {
       transactionService.add(newTransactionRequest);
+      LOGGER.debug("Given transaction is accepted, returning 201");
       return ResponseEntity.status(ResponseCodes.TRX_ACCEPTED_SUCCESSFULLY.code()).build();
     } catch (OldTransactionException e) {
       LOGGER.debug("Given transaction is older than 60 seconds, returning 204");
