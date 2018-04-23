@@ -1,16 +1,14 @@
 package com.selimssevgi.trxstats.service;
 
-import com.selimssevgi.trxstats.domain.shared.Amount;
 import com.selimssevgi.trxstats.domain.Transaction;
+import com.selimssevgi.trxstats.domain.shared.Statistics;
+import com.selimssevgi.trxstats.domain.specification.TransactionSpecification;
 import com.selimssevgi.trxstats.repository.TransactionRepository;
 import com.selimssevgi.trxstats.service.model.NewTransactionRequest;
 import com.selimssevgi.trxstats.service.model.TransactionStatisticsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.DoubleSummaryStatistics;
-import java.util.List;
 
 /**
  * Transaction service implementation.
@@ -33,6 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
     Transaction transaction = TransactionServiceMapper.toTransaction(newTransactionRequest);
 
     if (transactionSpecification.isNotSatisfiedBy(transaction)) {
+      LOGGER.info("Given transaction does not satisfy business rules: {}", transaction);
       throw new OldTransactionException("Transaction is old");
     }
 
@@ -41,28 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
 
   @Override
   public TransactionStatisticsDto calculateStatistics() {
-    List<Transaction> transactions =
-            transactionRepository.findAllBySpecification(transactionSpecification);
-
-    // DSStatistics returns non-zero values when no value found
-    if (transactions.isEmpty()) {
-      LOGGER.debug("No transaction found, returns zero valued statistics.");
-      return TransactionStatisticsDto.fromZeroValues();
-    }
-
-    DoubleSummaryStatistics doubleSummaryStatistics = transactions.stream()
-            .map(Transaction::amount)
-            .mapToDouble(Amount::value)
-            .collect(DoubleSummaryStatistics::new,
-                    DoubleSummaryStatistics::accept,
-                    DoubleSummaryStatistics::combine);
-
-    return TransactionStatisticsDto.newBuilder()
-            .sum(doubleSummaryStatistics.getSum())
-            .maximum(doubleSummaryStatistics.getMax())
-            .minimum(doubleSummaryStatistics.getMin())
-            .average(doubleSummaryStatistics.getAverage())
-            .count(doubleSummaryStatistics.getCount())
-            .build();
+    Statistics statistics = transactionRepository.getStatistics();
+    return TransactionServiceMapper.toTransactionStaticsDto(statistics);
   }
 }

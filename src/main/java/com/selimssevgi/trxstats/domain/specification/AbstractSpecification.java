@@ -1,4 +1,4 @@
-package com.selimssevgi.trxstats.domain.shared;
+package com.selimssevgi.trxstats.domain.specification;
 
 /**
  * Implements general purpose methods for specifications.

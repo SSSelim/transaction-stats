@@ -6,6 +6,12 @@ package com.selimssevgi.trxstats.service.model;
  *   Provides builder object for more convenient and readable way
  *   of creating the objects.
  *   All fields have their own zero values as defaults.
+ *
+ * TODO:selimssevgi: now this class is almost copy of Statistics, could remove builder,
+ * then has to provide setter because there are not in same package.
+ * Could use shared object. It may not seem necessary
+ * but better to have a different response object for service.
+ * Leaving it as it is for now.
  */
 public class TransactionStatisticsDto {
   private double sum;

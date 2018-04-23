@@ -1,6 +1,6 @@
 package com.selimssevgi.trxstats.repository;
 
-import com.selimssevgi.trxstats.domain.shared.Specification;
+import com.selimssevgi.trxstats.domain.specification.Specification;
 
 import java.util.List;
 
@@ -21,5 +21,4 @@ public interface Repository<T> {
    * @return list of object, or empty list if none found
    */
   List<T> findAllBySpecification(Specification<T> specification);
-
 }
