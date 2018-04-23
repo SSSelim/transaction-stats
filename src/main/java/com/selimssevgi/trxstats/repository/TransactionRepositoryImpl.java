@@ -1,7 +1,8 @@
 package com.selimssevgi.trxstats.repository;
 
 import com.selimssevgi.trxstats.domain.Transaction;
-import com.selimssevgi.trxstats.domain.shared.Specification;
+import com.selimssevgi.trxstats.domain.specification.Specification;
+import com.selimssevgi.trxstats.domain.shared.Statistics;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -40,5 +41,10 @@ public class TransactionRepositoryImpl implements TransactionRepository {
               // takeWhile would help use here. SortedSet would be more meaningful.
               .filter(specification::isSatisfiedBy)
               .collect(Collectors.toList()); // returns empty list if none found
+  }
+
+  @Override
+  public Statistics getStatistics() {
+    return null;
   }
 }
